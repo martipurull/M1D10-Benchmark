@@ -126,7 +126,7 @@ const displayQuestion = function (questionNum) {
         possibleAnswerContainer.htmlFor = `a${ i }`
         possibleAnswerContainer.classList.add('possibleAnswer')
         possibleAnswerContainer.innerText = possibleAnswerContent
-        possibleAnswerContainer.addEventListener('click', checkSelectedAnswer)
+        possibleAnswerContainer.addEventListener('click', selectAnswer)
         answerContainer.appendChild(possibleAnswerContainer)
         let possibleAnswerInput = document.createElement('input')
         possibleAnswerInput.setAttribute('name', 'quizQuestion')
@@ -140,7 +140,23 @@ const displayQuestion = function (questionNum) {
         // possibleAnswerContainer.appendChild(possibleAnswerLabel)
         // possibleAnswerLabel.addEventListener('click', checkSelectedAnswer)
     }
+    let nextButton = document.createElement('button')
+    nextButton.innerText = 'NEXT'
+    nextButton.addEventListener('click', checkSelectedAnswer)
+    questionScreen.appendChild(nextButton)
+}
 
+const selectAnswer = function () {
+    let possibleAnswers = document.querySelectorAll('input[name="quizQuestion"]')
+    console.log(possibleAnswers)
+    let selectedAnswer
+    for (let i = 0; i < possibleAnswers.length; i++) {
+        if (possibleAnswers[i].checked) {
+            selectedAnswer = possibleAnswers[i].value
+        }
+    }
+    return selectedAnswer
+    // console.log(`Selected answer is ${ selectedAnswer }`)
 }
 
 //option to display all questions at once
@@ -194,15 +210,7 @@ const displayQuestion = function (questionNum) {
 
 
 const checkSelectedAnswer = function () {
-    let possibleAnswers = document.querySelectorAll('input[name="quizQuestion"]')
-    console.log(possibleAnswers)
-    let selectedAnswer
-    for (let i = 0; i < possibleAnswers.length; i++) {
-        if (possibleAnswers[i].checked) {
-            selectedAnswer = possibleAnswers[i].value
-        }
-    }
-    console.log(`Selected answer is ${ selectedAnswer }`)
+    let selectedAnswer = selectAnswer()
     if (selectedAnswer === questions[0].correct_answer) {
         userScore++
         currentQuestion++
