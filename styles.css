@@ -31,13 +31,13 @@ button:hover {
     font-size: 70px;
 }
 
-.question {
+.question-container {
     font-family: 'Stick No Bills';
     font-size: xx-large;
     margin: 25px;
 }
 
-.answers {
+.answers-container {
     display: flex;
     align-items: center;
     justify-content: space-evenly;

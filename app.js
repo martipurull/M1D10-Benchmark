@@ -101,22 +101,22 @@ const questions = [
 let currentQuestion = 0
 let userScore = 0
 
+
 const displayQuestion = function (questionNum) {
-    questionNum = currentQuestion
     const initialScreenNode = document.getElementById('initialScreen')
     initialScreenNode.style.display = 'none'
     const questionScreen = document.getElementById('questionScreen')
-    const firstQuestionContent = questions[questionNum].question
-    const firstQuestionContainer = document.createElement('div')
-    firstQuestionContainer.classList.add('question')
-    firstQuestionContainer.innerText = firstQuestionContent
-    questionScreen.appendChild(firstQuestionContainer)
+    const questionContent = questions[currentQuestion].question
+    const questionContainer = document.createElement('div')
+    questionContainer.classList.add('question-container')
+    questionContainer.innerText = questionContent
+    questionScreen.appendChild(questionContainer)
     const answerContainer = document.createElement('div')
-    answerContainer.classList.add('answers')
+    answerContainer.classList.add('answers-container')
     questionScreen.appendChild(answerContainer)
     let arrayOfPossibleAnswers = []
-    arrayOfPossibleAnswers.push(questions[questionNum].correct_answer)
-    let incorrectAnswers = questions[questionNum].incorrect_answers
+    arrayOfPossibleAnswers.push(questions[currentQuestion].correct_answer)
+    let incorrectAnswers = questions[currentQuestion].incorrect_answers
     for (answer of incorrectAnswers) {
         arrayOfPossibleAnswers.push(answer)
     }
@@ -126,7 +126,7 @@ const displayQuestion = function (questionNum) {
         possibleAnswerContainer.htmlFor = `a${ i }`
         possibleAnswerContainer.classList.add('possibleAnswer')
         possibleAnswerContainer.innerText = possibleAnswerContent
-        possibleAnswerContainer.addEventListener('click', selectAnswer)
+        possibleAnswerContainer.addEventListener('click', checkAnswer)
         answerContainer.appendChild(possibleAnswerContainer)
         let possibleAnswerInput = document.createElement('input')
         possibleAnswerInput.setAttribute('name', 'quizQuestion')
@@ -140,24 +140,44 @@ const displayQuestion = function (questionNum) {
         // possibleAnswerContainer.appendChild(possibleAnswerLabel)
         // possibleAnswerLabel.addEventListener('click', checkSelectedAnswer)
     }
+    let round = document.createElement('div')
+    round.classList.add('round')
+    round.innerText = `Current round: ${ currentQuestion }`
+    questionScreen.appendChild(round)
+    let score = document.createElement('div')
+    score.classList.add('score')
+    score.innerText = `Current score: ${ userScore }`
+    questionScreen.appendChild(score)
     let nextButton = document.createElement('button')
     nextButton.innerText = 'NEXT'
-    nextButton.addEventListener('click', checkSelectedAnswer)
+    nextButton.addEventListener('click', moveToNextQuestion)
     questionScreen.appendChild(nextButton)
+    currentQuestion++
 }
 
-const selectAnswer = function () {
-    let possibleAnswers = document.querySelectorAll('input[name="quizQuestion"]')
-    console.log(possibleAnswers)
-    let selectedAnswer
-    for (let i = 0; i < possibleAnswers.length; i++) {
-        if (possibleAnswers[i].checked) {
-            selectedAnswer = possibleAnswers[i].value
-        }
+const checkAnswer = function (e) {
+    let selectedAnswer = e.target.value
+    if (selectedAnswer === questions[currentQuestion - 1].correct_answer) {
+        userScore++
     }
-    return selectedAnswer
-    // console.log(`Selected answer is ${ selectedAnswer }`)
 }
+
+const moveToNextQuestion = function () {
+    let questionScreen = document.getElementById('questionScreen')
+    questionScreen.innerHTML = ''
+    if (currentQuestion < questions.length) {
+        displayQuestion()
+    } else {
+        endGame()
+    }
+}
+
+// const selectAnswer = function (eventData) {
+//     let selectedAnswer = eventData.target.value
+//     console.log(selectedAnswer)
+//     // return selectedAnswer
+//     // console.log(`Selected answer is ${ selectedAnswer }`)
+// }
 
 //option to display all questions at once
 
@@ -209,20 +229,21 @@ const selectAnswer = function () {
 
 
 
-const checkSelectedAnswer = function () {
-    let selectedAnswer = selectAnswer()
-    if (selectedAnswer === questions[0].correct_answer) {
-        userScore++
-        currentQuestion++
-    } else {
-        currentQuestion++
-    }
-    console.log(`user score is ${ userScore }`)
-    console.log(`the current question is ${ currentQuestion }`)
-    if (currentQuestion < questions.length) {
-        displayQuestion(currentQuestion)
-    }
-}
+// const checkSelectedAnswer = function () {
+//     let selectedAnswer = selectAnswer()
+//     if (selectedAnswer === questions[currentQuestion].correct_answer) {
+//         userScore++
+//         currentQuestion++
+//         console.log(currentQuestion)
+//     } else {
+//         currentQuestion++
+//     }
+//     console.log(`user score is ${ userScore }`)
+//     console.log(`the current question is ${ currentQuestion }`)
+//     if (currentQuestion < questions.length) {
+//         displayQuestion(currentQuestion)
+//     }
+// }
 
 //all questions at once option
 
@@ -249,12 +270,17 @@ const checkSelectedAnswer = function () {
 //     }
 // }
 
-// const endGame = function () {
-//     questionScreen.style.display = 'none'
-//     const finalScreenNode = document.createElement('div')
-//     const finalMessage = document.createElement('h1')
-//     finalMessage.innerText = `Well played: you scored ${ userScore } points!`
-// }
+const endGame = function () {
+    let questionScreen = document.getElementById('questionScreen')
+    questionScreen.innerHTML = ''
+    const finalScreenNode = document.createElement('div')
+    questionScreen.appendChild(finalScreenNode)
+    const finalMessage = document.createElement('h1')
+    finalMessage.innerText = `Well played: you scored ${ userScore } points!`
+    finalScreenNode.appendChild(finalMessage)
+}
+
+
 
 
 window.onload = function () {
