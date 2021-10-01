@@ -98,9 +98,83 @@ const questions = [
     },
 ];
 
-const displayAllQuestions = function () {
+let currentQuestion = 0
+let userScore = 0
+
+const displayQuestion = function (questionNum) {
+    questionNum = currentQuestion
+    const initialScreenNode = document.getElementById('initialScreen')
+    initialScreenNode.style.display = 'none'
+    const questionScreen = document.getElementById('questionScreen')
+    const firstQuestionContent = questions[questionNum].question
+    const firstQuestionContainer = document.createElement('div')
+    firstQuestionContainer.classList.add('question')
+    firstQuestionContainer.innerText = firstQuestionContent
+    questionScreen.appendChild(firstQuestionContainer)
+    const answerContainer = document.createElement('div')
+    answerContainer.classList.add('answers')
+    questionScreen.appendChild(answerContainer)
+    let arrayOfPossibleAnswers = []
+    arrayOfPossibleAnswers.push(questions[questionNum].correct_answer)
+    let incorrectAnswers = questions[questionNum].incorrect_answers
+    for (answer of incorrectAnswers) {
+        arrayOfPossibleAnswers.push(answer)
+    }
+    for (let i = 0; i < arrayOfPossibleAnswers.length; i++) {
+        let possibleAnswerContent = arrayOfPossibleAnswers[i]
+        let possibleAnswerContainer = document.createElement('label')
+        possibleAnswerContainer.htmlFor = `a${ i }`
+        possibleAnswerContainer.classList.add('possibleAnswer')
+        possibleAnswerContainer.innerText = possibleAnswerContent
+        possibleAnswerContainer.addEventListener('click', checkSelectedAnswer)
+        answerContainer.appendChild(possibleAnswerContainer)
+        let possibleAnswerInput = document.createElement('input')
+        possibleAnswerInput.setAttribute('name', 'quizQuestion')
+        possibleAnswerInput.setAttribute('type', 'radio')
+        possibleAnswerInput.setAttribute('id', `a${ i }`)
+        possibleAnswerInput.value = possibleAnswerContent
+        possibleAnswerContainer.appendChild(possibleAnswerInput)
+        // let possibleAnswerLabel = document.createElement('label')
+        // possibleAnswerLabel.htmlFor = `a${ i }`
+        // possibleAnswerLabel.innerText = possibleAnswerContent
+        // possibleAnswerContainer.appendChild(possibleAnswerLabel)
+        // possibleAnswerLabel.addEventListener('click', checkSelectedAnswer)
+    }
 
 }
+
+
+
+const checkSelectedAnswer = function () {
+    let possibleAnswers = document.querySelectorAll('input[name="quizQuestion"]')
+    console.log(possibleAnswers)
+    let selectedAnswer
+    for (let i = 0; i < possibleAnswers.length; i++) {
+        if (possibleAnswers[i].checked === true) {
+            selectedAnswer = possibleAnswers[i].value
+        }
+    }
+    console.log(`Selected answer is ${ selectedAnswer }`)
+    if (selectedAnswer === questions[0].correct_answer) {
+        userScore++
+        currentQuestion++
+    } else {
+        currentQuestion++
+    }
+    console.log(`user score is ${ userScore }`)
+    console.log(`the current question is ${ currentQuestion }`)
+    if (currentQuestion < questions.length) {
+        displayQuestion(currentQuestion)
+    }
+}
+
+const endGame = function () {
+    questionScreen.style.display = 'none'
+    const finalScreenNode = document.createElement('div')
+    const finalMessage = document.createElement('h1')
+    finalMessage.innerText = `Well played: you scored ${ userScore } points!`
+}
+
 
 window.onload = function () {
     // HINTS
