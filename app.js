@@ -16,7 +16,7 @@ const questions = [
         type: "multiple",
         difficulty: "easy",
         question:
-            "In the programming language Java, which of these keywords would you put on a variable to make sure it doesn&#039;t get modified?",
+            "In the programming language Java, which of these keywords would you put on a variable to make sure it doesn't get modified?",
         correct_answer: "Final",
         incorrect_answers: ["Static", "Private", "Public"],
     },
@@ -143,6 +143,54 @@ const displayQuestion = function (questionNum) {
 
 }
 
+//option to display all questions at once
+
+// const displayQuestions = function () {
+//     const initialScreenNode = document.getElementById('initialScreen')
+//     initialScreenNode.style.display = 'none'
+//     const questionScreen = document.getElementById('questionScreen')
+//     for (let i = 0; i < questions.length; i++) {
+
+//         const firstQuestionContent = questions[i].question
+//         const firstQuestionContainer = document.createElement('div')
+//         firstQuestionContainer.classList.add('question')
+//         firstQuestionContainer.innerText = firstQuestionContent
+//         questionScreen.appendChild(firstQuestionContainer)
+//         const answerContainer = document.createElement('div')
+//         answerContainer.classList.add('answers')
+//         questionScreen.appendChild(answerContainer)
+//         let arrayOfPossibleAnswers = []
+//         arrayOfPossibleAnswers.push(questions[i].correct_answer)
+//         let incorrectAnswers = questions[i].incorrect_answers
+//         for (answer of incorrectAnswers) {
+//             arrayOfPossibleAnswers.push(answer)
+//         }
+//         for (let i = 0; i < arrayOfPossibleAnswers.length; i++) {
+//             let possibleAnswerContent = arrayOfPossibleAnswers[i]
+//             let possibleAnswerContainer = document.createElement('label')
+//             possibleAnswerContainer.htmlFor = `a${ i }`
+//             possibleAnswerContainer.classList.add('possibleAnswer')
+//             possibleAnswerContainer.innerText = possibleAnswerContent
+//             answerContainer.appendChild(possibleAnswerContainer)
+//             let possibleAnswerInput = document.createElement('input')
+//             possibleAnswerInput.setAttribute('name', `a${ i }`)
+//             possibleAnswerInput.setAttribute('type', 'radio')
+//             possibleAnswerInput.setAttribute('id', `a${ i }`)
+//             possibleAnswerInput.value = possibleAnswerContent
+//             possibleAnswerContainer.appendChild(possibleAnswerInput)
+//             // let possibleAnswerLabel = document.createElement('label')
+//             // possibleAnswerLabel.htmlFor = `a${ i }`
+//             // possibleAnswerLabel.innerText = possibleAnswerContent
+//             // possibleAnswerContainer.appendChild(possibleAnswerLabel)
+//             // possibleAnswerLabel.addEventListener('click', checkSelectedAnswer)
+//         }
+//     }
+//     let checkAnswersButton = document.createElement('button')
+//     checkAnswersButton.innerText = 'Check Your Answers Now'
+//     checkAnswersButton.addEventListener('click', checkSelectedAnswers)
+//     questionScreen.appendChild(checkAnswersButton)
+// }
+
 
 
 const checkSelectedAnswer = function () {
@@ -150,7 +198,7 @@ const checkSelectedAnswer = function () {
     console.log(possibleAnswers)
     let selectedAnswer
     for (let i = 0; i < possibleAnswers.length; i++) {
-        if (possibleAnswers[i].checked === true) {
+        if (possibleAnswers[i].checked) {
             selectedAnswer = possibleAnswers[i].value
         }
     }
@@ -168,12 +216,37 @@ const checkSelectedAnswer = function () {
     }
 }
 
-const endGame = function () {
-    questionScreen.style.display = 'none'
-    const finalScreenNode = document.createElement('div')
-    const finalMessage = document.createElement('h1')
-    finalMessage.innerText = `Well played: you scored ${ userScore } points!`
-}
+//all questions at once option
+
+// const checkSelectedAnswers = function () {
+//     let possibleAnswers = document.querySelectorAll('input[name="quizQuestion"]')
+//     console.log(possibleAnswers)
+//     let selectedAnswers = []
+//     for (let i = 0; i < possibleAnswers.length; i++) {
+//         if (possibleAnswers[i].checked) {
+//             selectedAnswers = possibleAnswers[i].value
+//         }
+//     }
+//     console.log(`Selected answer is ${ selectedAnswer }`)
+//     if (selectedAnswer === questions[0].correct_answer) {
+//         userScore++
+//         currentQuestion++
+//     } else {
+//         currentQuestion++
+//     }
+//     console.log(`user score is ${ userScore }`)
+//     console.log(`the current question is ${ currentQuestion }`)
+//     if (currentQuestion < questions.length) {
+//         displayQuestion(currentQuestion)
+//     }
+// }
+
+// const endGame = function () {
+//     questionScreen.style.display = 'none'
+//     const finalScreenNode = document.createElement('div')
+//     const finalMessage = document.createElement('h1')
+//     finalMessage.innerText = `Well played: you scored ${ userScore } points!`
+// }
 
 
 window.onload = function () {
