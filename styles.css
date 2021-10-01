@@ -67,11 +67,11 @@ input[type=radio]:checked + label {
     font-size: xx-large;
 }
 
-/* .possibleAnswer input {
+.possibleAnswer input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
   height: 0;
   width: 0;
-} */
+}
 
