@@ -155,10 +155,18 @@ const displayQuestion = function (questionNum) {
     currentQuestion++
 }
 
-const checkAnswer = function (e) {
-    let selectedAnswer = e.target.value
-    if (selectedAnswer === questions[currentQuestion - 1].correct_answer) {
-        userScore++
+const checkAnswer = function () {
+    // let selectedAnswer = e.target.value
+    const possibleAnswers = document.getElementsByClassName('possibleAnswer')
+    console.log(userScore)
+    for (let i = 0; i < possibleAnswers.length; i++) {
+        if (possibleAnswers[i].innerText === questions[currentQuestion - 1].correct_answer) {
+            userScore++
+            console.log(userScore)
+            possibleAnswers[i].classList.add('correct-answer')
+        } else {
+            possibleAnswers[i].classList.add('wrong-answer')
+        }
     }
 }
 
